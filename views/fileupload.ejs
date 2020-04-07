@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+   <input type="file" , id="file">
+   <script>
+     function UploadFile() {
+       var fileObj = document.getElementById("file").files[0];
+       var url = "http://localhost:3001/api/file_upload"
+       var form = new FormData();
+       form.append("file",fileObj);
+       xhr = new XMLHttpRequest();
+       xhr.open("post",url,true);
+       xhr.onload = uploadComplete
+       xhr.onerror = uploadFailed;
+       xhr.upload.onloadstart = function(){
+         ot = new Date().getTime();
+         oloaded= 0
+       }
+       xhr.send(form)
+     }
+     function uploadComplete(event) {
+       if(event.target.responseText == "success") {
+         console.log('成功')
+       }else{
+         console.log('失败')
+       }
+     }
+     function uploadFailed(){
+       console.log("失败")
+     }
+     document.getElementById("file").addEventListener("change",UploadFile)
+   </script>
+  </body>
+</html>
